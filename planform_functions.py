@@ -4,12 +4,13 @@ import scipy.integrate as integrate
 from scipy.interpolate import UnivariateSpline
 
 
-def beta_wing_planform(R, AR, T, r1_hat, y_off_set, x_off_set, n):
+def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
     """beta wing planform function"""
+    c_bar = T / T_c
+    R = AR * c_bar
     yr = y_off_set * R
-    c_bar = R / AR
     xr = x_off_set * c_bar
-    T_c = T / c_bar
+    R_total = R + yr
 
     r2_hat = 0.929 * (r1_hat**0.732)
     p = r1_hat * (((r1_hat * (1 - r1_hat)) / ((r2_hat**2) - (r1_hat**2))) - 1)
@@ -41,7 +42,7 @@ def beta_wing_planform(R, AR, T, r1_hat, y_off_set, x_off_set, n):
     LE = np.array([[x, y] for x, y in zip(x_LE, y_LE)])
     TE = np.array([[x, y] for x, y in zip(x_TE, y_TE)])
 
-    return T_c, r, c, LE, TE
+    return R, R_total, r, c, LE, TE
 
 
 def radius_locations(LE, TE):
@@ -113,6 +114,6 @@ def force_estimate(R, S, Re, phi, r2_hat, r3_hat, medium):
     force_a = np.pi / 4 * c_bar**2 * rho * R * max_acc
 
     max_force = force_t + force_r + force_a
-    max_moment = max_force * r3_hat * R * 1000
+    max_moment = max_force * r3_hat * R
 
     return frequency, max_force, max_moment
