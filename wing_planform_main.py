@@ -44,7 +44,7 @@ for ar in AR:
         for r1 in r1_hat:
             for x_off in x_off_set:
                 R, R_total, r, c, LE, TE = beta_wing_planform(
-                    T_c, ar, T, r1, y_off, x_off, 200)
+                    T_c, ar, T, r1, y_off, x_off, 1000)
                 S, r1_out, r2_out, r3_out = radius_locations(LE, TE)
                 frequency, F, M = force_estimate(R, S, Re, phi, r2_out, r3_out,
                                                  medium)
@@ -60,11 +60,11 @@ for ar in AR:
                     y_off) + '_r1h' + str(r1) + '.csv'
                 profile_file = os.path.join(out_profile_path, profile_name)
                 wing_profile = np.append(LE, np.flip(TE, axis=0),
-                                         axis=0) * 1000
+                                         axis=0)
 
                 with open(profile_file, 'w') as f:
-                    f.write('x(chord_dir), y(span_dir)\n')
+                    f.write('x(chord_dir),y(span_dir)\n')
                 for co in wing_profile:
                     co_str = [str(x) for x in co]
                     with open(profile_file, 'a') as f:
-                        f.write('%s\n' % ', '.join(co_str))
+                        f.write('%s\n' % ','.join(co_str))

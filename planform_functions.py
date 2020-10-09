@@ -31,6 +31,8 @@ def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
         r[i] = i * dr
         r_hat[i] = r[i] / R
         c_hat[i] = ((r_hat[i]**(p - 1)) * ((1 - r_hat[i])**(q - 1))) / B
+        if r_hat[i] <= 0.5 and c_hat[i] <= 0.15:
+            c_hat[i] = 0.15
         c[i] = c_hat[i] * c_bar
         y_LE[i] = yr + r[i]
         y_TE[i] = yr + r[i]
