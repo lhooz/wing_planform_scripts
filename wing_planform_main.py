@@ -2,7 +2,7 @@
 
 import os
 import shutil
-from planform_functions import beta_wing_planform, radius_locations, force_estimate
+from planform_functions import beta_wing_planform, radius_locations, force_estimate, wshape_plotter
 import numpy as np
 
 T_c = 0.05
@@ -15,15 +15,20 @@ AR = [2, 3, 4, 5]
 y_off_set = [0, 0.1, 0.2]
 r1_hat = [0.4, 0.45, 0.5, 0.55, 0.6]
 
-x_off_set = [0.25]
+x_off_set = [0]
 
 out_profile_folder = 'wing_profiles'
+out_image_folder = 'wing_profile_images'
 #-------------------------------------------
 cwd = os.getcwd()
 out_profile_path = os.path.join(cwd, out_profile_folder)
+out_image_path = os.path.join(cwd, out_image_folder)
 if os.path.exists(out_profile_path):
     shutil.rmtree(out_profile_path)
+if os.path.exists(out_image_path):
+    shutil.rmtree(out_image_path)
 os.mkdir(out_profile_path)
+os.mkdir(out_image_path)
 #-------------------------------------------
 with open('wplanform_data.csv', 'w') as f:
     f.write('%s%s\n' % (r't/c = ', str(T_c)))
@@ -56,11 +61,17 @@ for ar in AR:
                 with open('wplanform_data.csv', 'a') as f:
                     f.write('%s\n' % ', '.join(parameters_mm))
 
+                #----------------------------------------------------
                 profile_name = 'ar' + str(ar) + '_ofs' + str(
-                    y_off) + '_r1h' + str(r1) + '.csv'
-                profile_file = os.path.join(out_profile_path, profile_name)
-                wing_profile = np.append(LE, np.flip(TE, axis=0),
-                                         axis=0)
+                    y_off) + '_r1h' + str(r1)
+                profile_file = os.path.join(out_profile_path,
+                                            profile_name + '.csv')
+                image_file = os.path.join(out_image_path,
+                                          profile_name + '.png')
+
+                wing_profile = np.append(LE, np.flip(TE, axis=0), axis=0)
+
+                wshape_plotter(wing_profile, image_file)
 
                 with open(profile_file, 'w') as f:
                     f.write('x(chord_dir),y(span_dir)\n')

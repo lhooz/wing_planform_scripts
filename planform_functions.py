@@ -1,5 +1,8 @@
 """functions for generating shape and calculating wing planform parameters"""
+
+import os
 import numpy as np
+import matplotlib.pyplot as plt
 import scipy.integrate as integrate
 from scipy.interpolate import UnivariateSpline
 
@@ -31,13 +34,13 @@ def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
         r[i] = i * dr
         r_hat[i] = r[i] / R
         c_hat[i] = ((r_hat[i]**(p - 1)) * ((1 - r_hat[i])**(q - 1))) / B
-        if r_hat[i] <= 0.5 and c_hat[i] <= 0.15:
-            c_hat[i] = 0.15
+        if r_hat[i] <= 0.5 and c_hat[i] <= 0.2:
+            c_hat[i] = 0.2
         c[i] = c_hat[i] * c_bar
         y_LE[i] = yr + r[i]
         y_TE[i] = yr + r[i]
-        x_LE[i] = xr + 0.5 * c[i]
-        x_TE[i] = xr - 0.5 * c[i]
+        x_LE[i] = xr + 0.25 * c[i]
+        x_TE[i] = xr - 0.75 * c[i]
 
     r = np.array(r)
     c = np.array(c)
@@ -45,6 +48,39 @@ def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
     TE = np.array([[x, y] for x, y in zip(x_TE, y_TE)])
 
     return R, R_total, r, c, LE, TE
+
+
+def wshape_plotter(wing_profile, save_file):
+    """
+    function to plot wing shape
+
+    """
+    cwd = os.getcwd()
+    wing_profile = np.array(wing_profile) * 1000
+    l_width = 3
+
+    fig, ax = plt.subplots(1, 1)
+
+    ax.plot(wing_profile[:, 1],
+            wing_profile[:, 0],
+            linestyle='solid',
+            linewidth=l_width,
+            label=r'wing profile')
+
+    ax.set_xlabel('y (mm)')
+    ax.set_ylabel('x (mm)')
+    ax.set_title('wing planform plot')
+    ax.legend()
+
+    if save_file == 'current':
+        out_figure_file = os.path.join(cwd, 'wing_planform_plot.png')
+        fig.savefig(out_figure_file)
+        plt.show()
+    else:
+        fig.savefig(save_file)
+        plt.close()
+
+    return fig
 
 
 def radius_locations(LE, TE):
