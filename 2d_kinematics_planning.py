@@ -14,7 +14,7 @@ pitch_angle = 90
 pitch_acc_fraction = 0.1
 #--------------------------------------
 with open('2d_case_parameters.csv', 'w') as f:
-    f.write('wing_chord = %s (m)\n' % str(wing_chord))
+    f.write('\nwing_chord = %s (m)\n' % str(wing_chord))
     f.write('steady_velocity = %s (m/s)\n' % str(steady_velocity))
     f.write('pitch_angle = %s (deg)\n' % str(pitch_angle))
     f.write('pitch_acc_time_fraction = %s\n' % str(pitch_acc_fraction))
