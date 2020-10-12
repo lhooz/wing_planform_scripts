@@ -154,4 +154,4 @@ def force_estimate(R, S, Re, phi, r2_hat, r3_hat, medium):
     max_force = force_t + force_r + force_a
     max_moment = max_force * r3_hat * R
 
-    return frequency, max_force, max_moment
+    return frequency, nu, ref_vel, max_force, max_moment

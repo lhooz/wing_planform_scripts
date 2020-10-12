@@ -38,7 +38,7 @@ with open('wplanform_data.csv', 'w') as f:
     f.write('%s%s\n' % ('Medium = ', medium))
     f.write(
         '%s\n' %
-        r'aspect_ratio, root_offset, r1_hat, r2_hat, r3_hat, R (mm), R_total (mm), flapping_frequency (Hz), max.force (N), max.moment (Nmm)'
+        r'aspect_ratio, root_offset, r1_hat, r2_hat, r3_hat, R (mm), R_total (mm), flapping_frequency (Hz), kinematic_viscosity (m^2/s), S (m^2), ref_vel_Ur2 (m/s), max.force (N), max.moment (Nmm)'
     )
 #------mm to m-----
 T = T / 1000
@@ -51,11 +51,11 @@ for ar in AR:
                 R, R_total, r, c, LE, TE = beta_wing_planform(
                     T_c, ar, T, r1, y_off, x_off, 1000)
                 S, r1_out, r2_out, r3_out = radius_locations(LE, TE)
-                frequency, F, M = force_estimate(R, S, Re, phi, r2_out, r3_out,
-                                                 medium)
+                frequency, nu, ref_vel, F, M = force_estimate(
+                    R, S, Re, phi, r2_out, r3_out, medium)
                 parameters_mm = [
                     ar, y_off, r1_out, r2_out, r3_out, R * 1000,
-                    R_total * 1000, frequency, F, M * 1000
+                    R_total * 1000, frequency, nu, S, ref_vel, F, M * 1000
                 ]
                 parameters_mm = [str(x) for x in parameters_mm]
                 with open('wplanform_data.csv', 'a') as f:
