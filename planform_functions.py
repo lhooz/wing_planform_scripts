@@ -124,23 +124,30 @@ def radius_locations(LE, TE):
     return S, r1_hat, r2_hat, r3_hat
 
 
-def force_estimate(R, S, Re, phi, r2_hat, r3_hat, medium):
+def force_estimate(R, S, Re, phi, r2_hat, r3_hat, medium_or_frequency):
     """estimate maximum forces for flapping wings"""
-    if medium == 'water':
+    if medium_or_frequency == 'water':
         rho = 999.7
         nu = 1.3065e-6
-    elif medium == 'air':
+    elif medium_or_frequency == 'air':
         rho = 1.246
         nu = 1.426e-5
+    else:
+        rho = 1
+        frequency = medium_or_frequency
 
     phi = phi * np.pi / 180
     pitch_angle = np.pi / 2
 
     c_bar = S / R
-    ref_vel = Re * nu / c_bar
-    max_vel = ref_vel * np.pi / 2
-    frequency = max_vel / (phi / 2 * 2 * np.pi * R * r2_hat)
+    if medium_or_frequency is str:
+        ref_vel = Re * nu / c_bar
+        frequency = ref_vel / (2 * phi * R * r2_hat)
+    else:
+        ref_vel = 2 * phi * frequency * R * r2_hat
+        nu = ref_vel * c_bar / Re
 
+    max_vel = ref_vel * np.pi / 2
     max_acc = max_vel * 2 * np.pi * frequency
     max_pitch_omega = 2 * np.pi * frequency * pitch_angle / 2
     # max_pitch_acc = 2 * np.pi * frequency * max_pitch_omega

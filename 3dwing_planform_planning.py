@@ -7,9 +7,10 @@ import numpy as np
 
 T_c = 0.05
 T = 3
-Re = 10000
+Re = 100
 phi = 160
-medium = 'water'
+# medium_or_frequency = 'water' #--used for exp cases--
+medium_or_frequency = 1  #--used for cfd cases--
 
 AR = [2, 3, 4, 5]
 y_off_set = [0, 0.1, 0.2]
@@ -33,12 +34,11 @@ os.mkdir(out_image_path)
 with open('wplanform_data.csv', 'w') as f:
     f.write('%s%s\n' % (r't/c = ', str(T_c)))
     f.write('%s%s%s\n' % ('Thickness = ', str(T), ' mm'))
-    f.write('%s%s\n' % ('Re = ', str(Re)))
     f.write('%s%s%s\n' % ('flapping amplitude = ', str(phi), ' degree'))
-    f.write('%s%s\n' % ('Medium = ', medium))
+    f.write('%s%s\n' % ('Medium_or_frequency = ', str(medium_or_frequency)))
     f.write(
         '%s\n' %
-        r'aspect_ratio, root_offset, r1_hat, r2_hat, r3_hat, R (mm), R_total (mm), flapping_frequency (Hz), kinematic_viscosity (m^2/s), S (m^2), ref_vel_Ur2 (m/s), max.force (N), max.moment (Nmm)'
+        r'Re, aspect_ratio, root_offset, r1_h_design, r1_hat, r2_hat, r3_hat, R (mm), R_total (mm), flapping_frequency (Hz), kinematic_viscosity (m^2/s), S (m^2), ref_vel_Ur2 (m/s), max.force (N), max.moment (Nmm)'
     )
 #------mm to m-----
 T = T / 1000
@@ -52,9 +52,9 @@ for ar in AR:
                     T_c, ar, T, r1, y_off, x_off, 1000)
                 S, r1_out, r2_out, r3_out = radius_locations(LE, TE)
                 frequency, nu, ref_vel, F, M = force_estimate(
-                    R, S, Re, phi, r2_out, r3_out, medium)
+                    R, S, Re, phi, r2_out, r3_out, medium_or_frequency)
                 parameters_mm = [
-                    ar, y_off, r1_out, r2_out, r3_out, R * 1000,
+                    Re, ar, y_off, r1, r1_out, r2_out, r3_out, R * 1000,
                     R_total * 1000, frequency, nu, S, ref_vel, F, M * 1000
                 ]
                 parameters_mm = [str(x) for x in parameters_mm]
