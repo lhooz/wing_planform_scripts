@@ -12,11 +12,11 @@ phi = 160
 # medium_or_frequency = 'water' #--used for exp cases--
 medium_or_frequency = 1  #--used for cfd cases--
 
-AR = [2, 3, 4, 5]
-y_off_set = [0, 0.1, 0.2]
+AR = [2.0, 3.0, 4.0, 5.0]
+y_off_set = [0.0, 0.1, 0.2]
 r1_hat = [0.4, 0.45, 0.5, 0.55, 0.6]
 
-x_off_set = [0]
+x_off_set = [0.0]
 
 out_profile_folder = 'wing_profiles'
 out_image_folder = 'wing_profile_images'

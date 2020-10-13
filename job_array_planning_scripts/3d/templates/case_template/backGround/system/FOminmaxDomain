@@ -1,0 +1,26 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  7                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+minmaxdomain
+{
+    type fieldMinMax;
+    //type banana;
+
+    libs ("libfieldFunctionObjects.so");
+    enabled true;
+
+    mode component;
+
+    writeControl writeTime;
+    //writeControl timeStep;
+    //writeInterval 1;
+
+    log true;
+
+    fields (p U);
+}
+

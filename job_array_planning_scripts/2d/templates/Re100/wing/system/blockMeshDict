@@ -1,0 +1,160 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  7                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+r    10;
+
+geometry
+{
+    cylinder
+    {
+        type   cylinder;
+        point1 (0 0 -100);
+        point2 (0 0  100);
+        radius $r;
+    }
+
+    frontPlane
+    {
+        type    plate;
+        origin  (-50 -50 0.5);
+        span    (100 100 0);
+    }
+
+    backPlane
+    {
+        type    plate;
+        origin  (-50 -50 -0.5);
+        span    (100 100 0);
+    }
+}
+
+n    100;
+
+// Rough approximation of corner points
+v    #calc "0.5773502*$r";
+mv   #calc "-0.5773502*$r";
+vh   #calc "0.3*$r";
+mvh  #calc "-0.3*$r";
+
+vertices
+(
+    // Inner block points
+    ($mvh $mvh -0.5)
+    ( $vh $mvh -0.5)
+    ( $vh  $vh -0.5)
+    ($mvh  $vh -0.5)
+    ($mvh $mvh  0.5)
+    ( $vh $mvh  0.5)
+    ( $vh  $vh  0.5)
+    ($mvh  $vh  0.5)
+
+    // Outer block points
+    project ($mv $mv -0.5) (cylinder backPlane)
+    project ( $v $mv -0.5) (cylinder backPlane)
+    project ( $v  $v -0.5) (cylinder backPlane)
+    project ($mv  $v -0.5) (cylinder backPlane)
+    project ($mv $mv  0.5) (cylinder frontPlane)
+    project ( $v $mv  0.5) (cylinder frontPlane)
+    project ( $v  $v  0.5) (cylinder frontPlane)
+    project ($mv  $v  0.5) (cylinder frontPlane)
+);
+
+blocks
+(
+    hex ( 0  1  2  3  4  5  6  7) ($n $n 1) simpleGrading (1 1 1)
+    hex ( 9  8 12 13  1  0  4  5) ($n 1 $n) simpleGrading (1 1 1)
+    hex (10  9 13 14  2  1  5  6) ($n 1 $n) simpleGrading (1 1 1)
+    hex (11 10 14 15  3  2  6  7) ($n 1 $n) simpleGrading (1 1 1)
+    hex ( 8 11 15 12  0  3  7  4) ($n 1 $n) simpleGrading (1 1 1)
+);
+
+edges
+(
+    // Outer edges
+    project  8  9 (cylinder backPlane)
+    project 10 11 (cylinder backPlane)
+    project 14 15 (cylinder frontPlane)
+    project 12 13 (cylinder frontPlane)
+
+    project  8 11 (cylinder backPlane)
+    project  9 10 (cylinder backPlane)
+    project 13 14 (cylinder frontPlane)
+    project 12 15 (cylinder frontPlane)
+
+    project  8 12 (cylinder)
+    project  9 13 (cylinder)
+    project 10 14 (cylinder)
+    project 11 15 (cylinder)
+
+
+    // Inner edges
+    line  0  1
+    line  2  3
+    line  6  7
+    line  4  5
+
+    line  0  3
+    line  1  2
+    line  5  6
+    line  4  7
+
+    line  0  4
+    line  1  5
+    line  2  6
+    line  3  7
+);
+
+boundary
+(
+    oversetPatch
+    {
+        type overset;
+        faces
+        (
+            ( 8 12 15 11)
+            (10 14 13  9)
+            ( 9 13 12  8)
+            (11 15 14 10)
+        );
+    }
+
+    front
+    {
+        type empty;
+        faces
+        (
+            ( 4  5  6  7)
+            (12 13  5  4)
+            (13 14  6  5)
+            (14 15  7  6)
+            (15 12  4  7)
+        );
+    }
+
+    back
+    {
+        type empty;
+        faces
+        (
+            ( 0  1  2  3)
+            ( 9  8  0  1)
+            (10  9  1  2)
+            (11 10  2  3)
+            ( 8 11  3  0)
+        );
+    }
+);
+
+// ************************************************************************* //
