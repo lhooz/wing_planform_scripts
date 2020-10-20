@@ -61,7 +61,7 @@ solvers
 PIMPLE
 {
     //momentumPredictor   true;
-    nOuterCorrectors    50;
+    nOuterCorrectors    20;
     nCorrectors         4;
     nNonOrthogonalCorrectors 2;
 
