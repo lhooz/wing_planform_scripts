@@ -4,7 +4,7 @@ import os
 import shutil
 
 template_dir = 'templates'
-kinematic_data_dir = '2d_kinematic_cases'
+kinematic_data_dir = '2d_kinematic_cases_flow_visulization'
 out_job_array_dir = 'wake_capture_2d_job_pack'
 #-------------------------------------------------
 cwd = os.getcwd()

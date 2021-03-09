@@ -16,6 +16,16 @@ FoamFile
 
 solvers
 {
+    cellDisplacement
+    {
+        solver          PCG;
+        preconditioner  DIC;
+
+        tolerance       1e-06;
+        relTol          0;
+        maxIter         100;
+    }
+
     p
     {
         solver          PBiCGStab;
@@ -31,24 +41,32 @@ solvers
         relTol          0;
     }
 
-    "pcorr.*"
+    pcorr
     {
-        $pFinal;
+        $p;
+        solver          PCG;
+        preconditioner  DIC;
+    }
+
+    pcorrFinal
+    {
+        $pcorr;
+        relTol          0;
     }
 
     U
     {
-        /*solver          smoothSolver;
+        solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-8;
         relTol          0.01;
-	minIter 	2;*/
+	minIter 	2;
 
-        solver          PBiCGStab;
+        /*solver          PBiCGStab;
         preconditioner  DILU;
         tolerance       1e-8;
         relTol          0.01;
-	minIter 	2;
+	minIter 	2;*/
     }
 
     UFinal
@@ -60,13 +78,14 @@ solvers
 
 PIMPLE
 {
-    //momentumPredictor   true;
-    nOuterCorrectors    20;
+    momentumPredictor   false;
+    correctPhi          false;
+    oversetAdjustPhi    false;
+
+    nOuterCorrectors    40;
     nCorrectors         4;
     nNonOrthogonalCorrectors 2;
 
-    oversetAdjustPhi    true;
-    //correctPhi          true;
     ddtCorr             true;
 
     residualControl
@@ -83,18 +102,16 @@ PIMPLE
         }
      }
 }
-/*
+
 relaxationFactors
 {
     fields
     {
-        p              0.5;
-        U              0.7;
     }
     equations
     {
         ".*"           1;
     }
 }
-*/
+
 // ************************************************************************* //

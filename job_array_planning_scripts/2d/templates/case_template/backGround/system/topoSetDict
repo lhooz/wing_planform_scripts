@@ -17,31 +17,14 @@ FoamFile
 actions
 (
     {
-        name    c0;
-        type    cellSet;
+        name    movingZone;
+        type    cellZoneSet;
         action  new;
-        source  regionToCell;
+        source  setToCellZone;
         sourceInfo
         {
-            insidePoints ((-11. 0 0));
+            set region1;
         }
-    }
-
-    {
-        name    c1;
-        type    cellSet;
-        action  new;
-        source  cellToCell;
-        sourceInfo
-        {
-            set c0;
-        }
-    }
-
-    {
-        name    c1;
-        type    cellSet;
-        action  invert;
     }
 );
 

@@ -14,14 +14,14 @@ cd backGround
 blockMesh
 transformPoints -translate '(-5 0 0)'
 mergeMeshes . ../wing -overwrite
-topoSet
-topoSet -dict system/topoSetDict_movingZone
 
 rm -r 0
 cp -r 0_org 0
 
-checkMesh |  tee log.checkMesh
+checkMesh
+topoSet
 setFields | tee log.setFields
+checkMesh |  tee log.checkMesh
 
 touch open.foam
 cd ..

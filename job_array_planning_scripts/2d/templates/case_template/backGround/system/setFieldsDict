@@ -25,7 +25,7 @@ regions
     // (does zerogradient on boundaries)
     cellToCell
     {
-        set c0;
+        set region0;
 
         fieldValues
         (
@@ -35,7 +35,7 @@ regions
 
     cellToCell
     {
-        set c1;
+        set region1;
 
         fieldValues
         (

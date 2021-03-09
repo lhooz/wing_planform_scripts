@@ -55,11 +55,9 @@ maxDeltaT       0.1;*/
 
 functions
 {
-//#include "FOforce"
 #include "FOforceCoefficients"
 #include "FOQ"
 #include "FOLambda2"
-#include "FOfieldAverage"
-#include "FOminmaxDomain"
+#include "FOvorticity"
 };
 
