@@ -1,6 +1,6 @@
 #!/bin/bash --login
 
-#$ -pe smp.pe 16
+#$ -pe smp.pe 8
 #$ -cwd
 
 #$ -m bea
@@ -14,8 +14,6 @@ readarray -t JOB_DIRS < <(find . -mindepth 1 -maxdepth 1 -name '*Re*' -printf '%
 module load apps/gcc/openfoam/v1906
 module load apps/binapps/paraview/5.7.0
 source $foamDotFile
-
-. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions
 
 TID=$[SGE_TASK_ID-1]
 JOBDIR=${JOB_DIRS[$TID]}

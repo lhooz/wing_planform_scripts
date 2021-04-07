@@ -16,47 +16,34 @@ FoamFile
 
 libs            ("liboverset.so");
 
-application     pimpleFoam;
+application     snappyHexMesh;
 
-startFrom       startTime;
+startFrom       latestTime;
 
 startTime       0;
 
 stopAt          endTime;
 
-endTime         2.001;
+endTime         100;
 
-deltaT          1e-3;
+deltaT          1;
 
-writeControl    adjustableRunTime;
+writeControl    runTime;
 
-writeInterval   0.1;
+writeInterval   1;
 
 purgeWrite      0;
 
 writeFormat     ascii;
 
-writePrecision  10;
+writePrecision  6;
 
 writeCompression off;
 
 timeFormat      general;
 
-timePrecision   10;
+timePrecision   6;
 
 runTimeModifiable true;
-/*
-adjustTimeStep  yes;
 
-maxCo           0.5;
-
-maxDeltaT       0.01;
-*/
 // ************************************************************************* //
-
-functions
-{
-#include "FOforceCoefficients"
-};
-
-

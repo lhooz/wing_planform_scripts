@@ -9,54 +9,35 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    object      controlDict;
+    class       volVectorField;
+    object      U;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-libs            ("liboverset.so");
+dimensions      [0 1 -1 0 0 0 0];
 
-application     pimpleFoam;
+internalField   uniform (0 0 0);
 
-startFrom       startTime;
-
-startTime       0;
-
-stopAt          endTime;
-
-endTime         2.001;
-
-deltaT          1e-3;
-
-writeControl    adjustableRunTime;
-
-writeInterval   0.1;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  10;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   10;
-
-runTimeModifiable true;
-/*
-adjustTimeStep  yes;
-
-maxCo           0.5;
-
-maxDeltaT       0.01;
-*/
-// ************************************************************************* //
-
-functions
+boundaryField
 {
-#include "FOforceCoefficients"
-};
+    #includeEtc "caseDicts/setConstraintTypes"
 
+    oversetPatch
+    {
+        type            overset;
+	value		$internalField;
+    }
 
+    wing
+    {
+        type            movingWallVelocity;
+	value		$internalField;
+    }
+
+    farField
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //

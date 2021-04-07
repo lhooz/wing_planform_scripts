@@ -13,7 +13,7 @@ FoamFile
     object      blockMeshDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-r    15;
+r    10;
 
 geometry
 {
@@ -40,7 +40,7 @@ geometry
     }
 }
 
-n    150;
+n    500;
 
 // Rough approximation of corner points
 v    #calc "0.5773502*$r";

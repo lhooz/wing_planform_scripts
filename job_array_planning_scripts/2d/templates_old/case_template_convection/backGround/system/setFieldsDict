@@ -10,53 +10,39 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      controlDict;
+    object      setFieldsDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-libs            ("liboverset.so");
+defaultFieldValues
+(
+    volScalarFieldValue zoneID 123
+);
 
-application     pimpleFoam;
+regions
+(
+    // Set cell values
+    // (does zerogradient on boundaries)
+    cellToCell
+    {
+        set region0;
 
-startFrom       startTime;
+        fieldValues
+        (
+            volScalarFieldValue zoneID 0
+        );
+    }
 
-startTime       0;
+    cellToCell
+    {
+        set region1;
 
-stopAt          endTime;
+        fieldValues
+        (
+            volScalarFieldValue zoneID 1
+        );
+    }
 
-endTime         2.001;
+);
 
-deltaT          1e-3;
-
-writeControl    adjustableRunTime;
-
-writeInterval   0.1;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  10;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   10;
-
-runTimeModifiable true;
-/*
-adjustTimeStep  yes;
-
-maxCo           0.5;
-
-maxDeltaT       0.01;
-*/
 // ************************************************************************* //
-
-functions
-{
-#include "FOforceCoefficients"
-};
-
-

@@ -1,28 +1,43 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  7                                     |
-|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    object      decomposeParDict;
+    class       featureEdgeMesh;
+    location    "constant/triSurface";
+    object      wing2d.eMesh;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 16;
 
-method          simple;
+// points:
+8((0.015 -0.75 -1.5) (0.015 -0.75 1.5) (-0.015 -0.75 -1.5) (-0.015 -0.75 1.5) (0.015 0.25 -1.5) (0.015 0.25 1.5) (-0.015 0.25 -1.5) (-0.015 0.25 1.5))
 
-coeffs
-{
-    n           (4 4 1);
-    //delta       0.001; // default=0.001
-    //order       xyz;   // default=xzy
-}
+// edges:
+
+12
+(
+(0 1)
+(2 0)
+(3 2)
+(1 3)
+(4 5)
+(0 4)
+(5 1)
+(6 7)
+(4 6)
+(7 5)
+(6 2)
+(3 7)
+)
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 
 // ************************************************************************* //

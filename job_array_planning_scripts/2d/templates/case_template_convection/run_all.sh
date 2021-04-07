@@ -1,33 +1,35 @@
 #!/bin/bash
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions
 
 foamCleanTutorials
 
 cd wing
-blockMesh
-surfaceFeatureExtract
-snappyHexMesh -overwrite | tee log.snappyHexMesh
-extrudeMesh
-transformPoints -rollPitchYaw '(0 0 45)'
+runApplication blockMesh
+runApplication surfaceFeatureExtract
+cp -f system/decomposeParDict.hierarchical system/decomposeParDict
+decomposePar
+cp -f system/decomposeParDict.ptscotch system/decomposeParDict
+runParallel snappyHexMesh -overwrite
+runParallel extrudeMesh
+runParallel transformPoints -rollPitchYaw '(0 0 45)'
+runApplication reconstructParMesh -constant -latestTime -mergeTol 1e-6
 cd ..
 
 cd backGround
-blockMesh
-transformPoints -translate '(-5 0 0)'
-mergeMeshes . ../wing -overwrite
-
-rm -r 0
-cp -r 0_org 0
+runApplication blockMesh
+runApplication transformPoints -translate '(-3 0 0)'
+runApplication mergeMeshes . ../wing -overwrite
 
 checkMesh
-topoSet
-setFields | tee log.setFields
-checkMesh |  tee log.checkMesh
+runApplication topoSet
+runApplication setFields
+runApplication checkMesh
 
 touch open.foam
 cd ..
 
 cd backGround
-decomposePar
-mpirun -np $NSLOTS renumberMesh -overwrite -parallel | tee log.renumberMesh
-mpirun -np $NSLOTS overPimpleDyMFoam -parallel | tee log.solver
+runApplication decomposePar
+restore0Dir -processor
+runParallel overPimpleDyMFoam
 cd ..

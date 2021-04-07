@@ -41,13 +41,13 @@ castellatedMeshControls
     minRefinementCells 10;
     maxLoadUnbalance 0.10;
 
-    nCellsBetweenLevels 30;
+    nCellsBetweenLevels 10;
 
     features 
     (
         { 
         file "wing2d.eMesh"; 
-        level 3;
+        level 4;
         }
     );
 
@@ -55,7 +55,7 @@ castellatedMeshControls
     {
         wing
         {
-            level (2 2);
+            level (3 3);
         }
     }
 
