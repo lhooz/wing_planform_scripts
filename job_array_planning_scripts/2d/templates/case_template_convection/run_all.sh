@@ -20,6 +20,8 @@ runApplication blockMesh
 runApplication transformPoints -translate '(-3 0 0)'
 runApplication mergeMeshes . ../wing -overwrite
 
+restore0Dir
+
 checkMesh
 runApplication topoSet
 runApplication setFields
@@ -30,6 +32,5 @@ cd ..
 
 cd backGround
 runApplication decomposePar
-restore0Dir -processor
 runParallel overPimpleDyMFoam
 cd ..

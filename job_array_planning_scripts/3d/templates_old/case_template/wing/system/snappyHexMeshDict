@@ -1,0 +1,149 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  7                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh true;
+snap            true;
+addLayers       false;
+
+geometry
+{
+    "wing.stl"
+    {
+        type    triSurfaceMesh;
+        name    wing;
+    }
+    
+    refinementBox
+    {
+        type    searchableBox;
+        min     (-0.35   -0.15  -0.35);
+        max     ( 0.25   0.65   0.35);
+    }
+
+};
+
+castellatedMeshControls
+{
+    maxLocalCells 400000;
+    maxGlobalCells 8000000;
+    minRefinementCells 10;
+    maxLoadUnbalance 0.10;
+    nCellsBetweenLevels 8;
+
+    features 
+    (
+        { 
+        file "wing.eMesh"; 
+        level 7;
+        }
+    );
+
+    refinementSurfaces
+    {
+        wing
+        {
+            level (6 6);
+        }
+    }
+
+    resolveFeatureAngle 60;
+
+    refinementRegions
+    {
+        refinementBox
+        {
+            mode inside;
+            levels ((1e15 2));
+        }
+    }
+
+    locationInMesh (0 0 0.1);
+    allowFreeStandingZoneFaces true;
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 4.0;
+    nSolveIter 30;
+    nRelaxIter 5;
+    nFeatureSnapIter 10;
+    implicitFeatureSnap true;
+    explicitFeatureSnap false;
+    multiRegionFeatureSnap true;
+}
+
+addLayersControls
+{
+    relativeSizes true;
+
+    layers
+    {
+        wing
+        {
+            nSurfaceLayers 8;
+        }
+    }
+
+    meshShrinker    displacementMotionSolver;
+    solver          displacementLaplacian;
+    displacementLaplacianCoeffs
+    {
+        diffusivity     inverseDistance (wing);
+    }
+
+    expansionRatio 1.3;
+    finalLayerThickness 0.9;
+    minThickness 0.05;
+    nGrow 8;
+    featureAngle 180;
+    nRelaxIter 50;
+    nSmoothSurfaceNormals 1;
+    nSmoothNormals 10;
+    nSmoothThickness 10;
+    maxFaceThicknessRatio 1;
+    maxThicknessToMedialRatio 1;
+    minMedialAxisAngle 90;
+    nBufferCellsNoExtrude 1;
+    nLayerIter 200;
+}
+
+meshQualityControls
+{
+    maxNonOrtho 60;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave 80;
+    minVol -1;
+    minTetQuality -1;
+    minArea -1;
+    minTwist 0.01;
+    minDeterminant 0.001;
+    minFaceWeight 0.05;
+    minVolRatio 0.01;
+    minTriangleTwist -1;
+    nSmoothScale 4;
+    errorReduction 0.75;
+
+    relaxed
+    {
+        maxNonOrtho 75;
+    }
+}
+
+mergeTolerance 1e-6;
+
+// ************************************************************************* //

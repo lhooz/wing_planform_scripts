@@ -16,7 +16,7 @@ FoamFile
 
 libs            ("liboverset.so");
 
-application     pimpleFoam;
+application     overPimpleDyMFoam;
 
 startFrom       startTime;
 

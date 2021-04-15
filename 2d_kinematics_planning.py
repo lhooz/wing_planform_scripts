@@ -3,7 +3,7 @@
 import numpy as np
 
 time_scale = 1  #--time scale to include beginning and end constant time--
-Re = [100.0, 1000.0, 10000.0]
+Re = [5000.0]
 stroke_dist = [1.5, 3.0, 6.0]
 acc_time_fraction = [0.25]  #-include both acc and decc dist-
 pitch_time_fraction = [0.25]

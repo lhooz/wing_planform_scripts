@@ -40,7 +40,7 @@ geometry
     }
 }
 
-n    600;
+n    200;
 
 // Rough approximation of corner points
 v    #calc "0.5773502*$r";

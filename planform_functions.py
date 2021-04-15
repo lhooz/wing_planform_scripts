@@ -11,7 +11,7 @@ def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
     """beta wing planform function"""
     c_bar = T / T_c
     R = AR * c_bar
-    yr = y_off_set * R
+    yr = y_off_set * c_bar
     xr = x_off_set * c_bar
     R_total = R + yr
 
@@ -34,8 +34,8 @@ def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
         r[i] = i * dr
         r_hat[i] = r[i] / R
         c_hat[i] = ((r_hat[i]**(p - 1)) * ((1 - r_hat[i])**(q - 1))) / B
-        if r_hat[i] <= 0.5 and c_hat[i] <= 0.2:
-            c_hat[i] = 0.2
+        if r_hat[i] <= 0.5 and c_hat[i] <= 0.1:
+            c_hat[i] = 0.1
         c[i] = c_hat[i] * c_bar
         y_LE[i] = yr + r[i]
         y_TE[i] = yr + r[i]
@@ -67,6 +67,7 @@ def wshape_plotter(wing_profile, save_file):
             linewidth=l_width,
             label=r'wing profile')
 
+    ax.axis('equal')
     ax.set_xlabel('y (mm)')
     ax.set_ylabel('x (mm)')
     ax.set_title('wing planform plot')

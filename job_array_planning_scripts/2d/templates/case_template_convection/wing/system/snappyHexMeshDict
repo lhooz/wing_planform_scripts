@@ -25,11 +25,15 @@ geometry
         name    wing;
     }
 
-    refinementBox
+    refinementCyl
     {
-        type    searchableBox;
-        min     (-4 -4 -1);
-        max     ( 4  4  1);
+        /*type    searchableBox;
+        min     (-5 -5 -1);
+        max     ( 5  5  1);*/
+    	type            searchableCylinder;
+    	point1          (0.0 0.0 -1.0);
+    	point2          (0.0 0.0  1.0);
+    	radius          5.0;
     }
 
 };
@@ -41,13 +45,13 @@ castellatedMeshControls
     minRefinementCells 10;
     maxLoadUnbalance 0.10;
 
-    nCellsBetweenLevels 30;
+    nCellsBetweenLevels 8;
 
     features 
     (
         { 
         file "wing2d.eMesh"; 
-        level 3;
+        level 4;
         }
     );
 
@@ -55,7 +59,7 @@ castellatedMeshControls
     {
         wing
         {
-            level (2 2);
+            level (3 3);
         }
     }
 
@@ -63,11 +67,11 @@ castellatedMeshControls
 
     refinementRegions
     {
-        /*refinementBox
+        refinementCyl
         {
             mode inside;
             levels ((1e15 2));
-        }*/
+        }
     }
 
     locationInMesh (-0.5 0 0);

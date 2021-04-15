@@ -14,7 +14,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-scale   2;
+scale   2.2;
 verbose no;
 
 geometry
@@ -34,7 +34,7 @@ geometry
     }*/
 }
 
-n    25;
+n    35;
 
 // Rough approximation of corner points
 v    0.5773502;

@@ -11,10 +11,10 @@ phi = 160
 # medium_or_frequency = 'water' #--used for exp cases--
 medium_or_frequency = 1  #--used for cfd cases--
 
-Reynolds_no = [100, 1000, 10000]
-AR = [2.0, 3.0, 4.0, 5.0]
-y_off_set = [0.0, 0.1, 0.2]
-r1_hat = [0.4, 0.45, 0.5, 0.55, 0.6]
+Reynolds_no = [100, 1000]
+AR = [1.5, 3.0, 4.5, 6.0, 7.5]
+r1_hat = [0.4, 0.5, 0.6, 0.7]
+y_off_set = [0.0, 1.0, 2.0, 3.0]
 
 x_off_set = [0.0]
 

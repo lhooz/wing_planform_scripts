@@ -30,15 +30,15 @@ geometry
     {
         type    searchableBox;
         min     (-0.35   -0.15  -0.35);
-        max     ( 0.25   0.65   0.35);
+        max     ( 0.25   0.85   0.35);
     }
 
 };
 
 castellatedMeshControls
 {
-    maxLocalCells 400000;
-    maxGlobalCells 8000000;
+    maxLocalCells 4000000;
+    maxGlobalCells 10000000;
     minRefinementCells 10;
     maxLoadUnbalance 0.10;
     nCellsBetweenLevels 8;
