@@ -11,7 +11,7 @@ phi = 160
 # medium_or_frequency = 'water' #--used for exp cases--
 medium_or_frequency = 1  #--used for cfd cases--
 
-Reynolds_no = [100, 1000]
+Reynolds_no = [100]
 AR = [1.5, 3.0, 4.5, 6.0, 7.5]
 r1_hat = [0.4, 0.5, 0.6, 0.7]
 y_off_set = [0.0, 1.0, 2.0, 3.0]
@@ -48,11 +48,11 @@ for Re in Reynolds_no:
         for y_off in y_off_set:
             for r1 in r1_hat:
                 for x_off in x_off_set:
-                    R, R_total, r, c, LE, TE = beta_wing_planform(
+                    R, c_bar, r, c, LE, TE = beta_wing_planform(
                         T_c, ar, T, r1, y_off, x_off, 1000)
-                    S, r1_out, r2_out, r3_out = radius_locations(LE, TE)
+                    R_total, S, r1_out, r2_out, r3_out = radius_locations(LE, TE)
                     frequency, nu, ref_vel, F, M = force_estimate(
-                        R, S, Re, phi, r2_out, r3_out, medium_or_frequency)
+                        R_total, c_bar, S, Re, phi, r2_out, r3_out, medium_or_frequency)
                     parameters_mm = [
                         Re, ar, y_off, r1, r1_out, r2_out, r3_out, R * 1000,
                         R_total * 1000, frequency, nu, S, ref_vel, F, M * 1000

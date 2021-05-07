@@ -13,7 +13,6 @@ def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
     R = AR * c_bar
     yr = y_off_set * c_bar
     xr = x_off_set * c_bar
-    R_total = R + yr
 
     r2_hat = 0.929 * (r1_hat**0.732)
     p = r1_hat * (((r1_hat * (1 - r1_hat)) / ((r2_hat**2) - (r1_hat**2))) - 1)
@@ -47,7 +46,7 @@ def beta_wing_planform(T_c, AR, T, r1_hat, y_off_set, x_off_set, n):
     LE = np.array([[x, y] for x, y in zip(x_LE, y_LE)])
     TE = np.array([[x, y] for x, y in zip(x_TE, y_TE)])
 
-    return R, R_total, r, c, LE, TE
+    return R, c_bar, r, c, LE, TE
 
 
 def wshape_plotter(wing_profile, save_file):
@@ -121,11 +120,13 @@ def radius_locations(LE, TE):
     r1_hat = S1 / (S0 * R)
     r2_hat = (S2 / (S0 * R**2))**(1 / 2)
     r3_hat = (S3 / (S0 * R**3))**(1 / 3)
+    R_total = R
 
-    return S, r1_hat, r2_hat, r3_hat
+    return R_total, S, r1_hat, r2_hat, r3_hat
 
 
-def force_estimate(R, S, Re, phi, r2_hat, r3_hat, medium_or_frequency):
+def force_estimate(R_total, c_bar, S, Re, phi, r2_hat, r3_hat,
+                   medium_or_frequency):
     """estimate maximum forces for flapping wings"""
     if medium_or_frequency == 'water':
         rho = 999.7
@@ -140,12 +141,11 @@ def force_estimate(R, S, Re, phi, r2_hat, r3_hat, medium_or_frequency):
     phi = phi * np.pi / 180
     pitch_angle = np.pi / 2
 
-    c_bar = S / R
     if medium_or_frequency is str:
         ref_vel = Re * nu / c_bar
-        frequency = ref_vel / (2 * phi * R * r2_hat)
+        frequency = ref_vel / (2 * phi * R_total * r2_hat)
     else:
-        ref_vel = 2 * phi * frequency * R * r2_hat
+        ref_vel = 2 * phi * frequency * R_total * r2_hat
         nu = ref_vel * c_bar / Re
 
     max_vel = ref_vel * np.pi / 2
@@ -156,10 +156,11 @@ def force_estimate(R, S, Re, phi, r2_hat, r3_hat, medium_or_frequency):
     cf_t = 3.4
     cf_r = 1.6
     force_t = 0.5 * rho * ref_vel**2 * cf_t * S
-    force_r = cf_r * rho * (0.5 * max_vel) * max_pitch_omega * c_bar**2 * R
-    force_a = np.pi / 4 * c_bar**2 * rho * R * max_acc
+    force_r = cf_r * rho * (0.5 *
+                            max_vel) * max_pitch_omega * c_bar**2 * R_total
+    force_a = np.pi / 4 * c_bar**2 * rho * R_total * max_acc
 
     max_force = force_t + force_r + force_a
-    max_moment = max_force * r3_hat * R
+    max_moment = max_force * r3_hat * R_total
 
     return frequency, nu, ref_vel, max_force, max_moment
