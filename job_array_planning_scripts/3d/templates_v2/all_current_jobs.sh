@@ -1,12 +1,12 @@
 #!/bin/bash --login
 
-#$ -pe smp.pe 16
+#$ -pe smp.pe 8
 #$ -cwd
 
 #$ -m bea
 #$ -M hao.lee0019@yahoo.com
 
-#$ -t 1-80
+#$ -t 1-160
 mkdir ./SIM_RESULTS
 readarray -t JOB_DIRS < <(find . -mindepth 1 -maxdepth 1 -name '*Re*' -printf '%P\n')
 

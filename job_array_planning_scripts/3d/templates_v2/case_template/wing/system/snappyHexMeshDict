@@ -30,7 +30,7 @@ geometry
     {
         type    searchableBox;
         min     (-0.35   -0.15  -0.35);
-        max     ( 0.25   0.80   0.35);
+        max     ( 0.25   0.85   0.35);
     }
 
 };
@@ -38,16 +38,16 @@ geometry
 castellatedMeshControls
 {
     maxLocalCells 4000000;
-    maxGlobalCells 100000000;
+    maxGlobalCells 10000000;
     minRefinementCells 10;
     maxLoadUnbalance 0.10;
-    nCellsBetweenLevels 4;
+    nCellsBetweenLevels 8;
 
     features 
     (
         { 
         file "wing.eMesh"; 
-        levels ((0.01 6) (0.03 5) (0.09 4) (0.18 3) (0.30 2));
+        level 7;
         }
     );
 
@@ -63,11 +63,11 @@ castellatedMeshControls
 
     refinementRegions
     {
-        /*refinementBox
+        refinementBox
         {
             mode inside;
             levels ((1e15 2));
-        }*/
+        }
     }
 
     locationInMesh (0 0 0.1);

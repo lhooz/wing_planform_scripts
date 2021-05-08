@@ -1,0 +1,44 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  7                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+forceCoeffs_object
+{
+    // rhoInf - reference density
+    // CofR - Centre of rotation
+    // dragDir - Direction of drag coefficient
+    // liftDir - Direction of lift coefficient
+    // pitchAxis - Pitching moment axis
+    // magUinf - free stream velocity magnitude
+    // lRef - reference length
+    // Aref - reference area
+    type forceCoeffs;
+    libs ("libforces.so");
+    patches (wing);
+
+    writeControl writeTime;
+    //writeControl   timeStep;
+    //writeInterval  1;
+
+    pName p;
+    Uname U;
+
+    rho rhoInf;
+    rhoInf 1;
+
+    //// Dump to file
+    log true;
+
+    CofR (0 0 0);
+    liftDir (1 0 0);
+    dragDir (0 0 1);
+    pitchAxis (0 1 0);
+    magUInf 0.656638;
+    lRef 0.143911;         // reference lenght for moments!!!
+    Aref 0.04;	// reference area
+}
+
