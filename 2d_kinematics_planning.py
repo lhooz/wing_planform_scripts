@@ -3,11 +3,11 @@
 import numpy as np
 
 time_scale = 1  #--time scale to include beginning and end constant time--
-Re = [5000.0]
-stroke_dist = [1.5, 3.0, 6.0]
-acc_time_fraction = [0.25]  #-include both acc and decc dist-
-pitch_time_fraction = [0.25]
-pitch_angles = [0.0, 45.0, 90.0]
+Re = [100.0, 1000.0]
+stroke_dist = [3.0, 5.0, 7.0, 9.0]
+acc_time_fraction = [0.125, 0.25, 0.5]  #-include both acc and decc dist-
+pitch_time_fraction = [0.125, 0.25, 0.5]
+pitch_angles = [90.0]
 #---------------------------------------
 wing_chord = 1.0
 stroke_time = 0.96
